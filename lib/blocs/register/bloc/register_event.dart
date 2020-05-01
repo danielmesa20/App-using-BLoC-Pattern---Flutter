@@ -7,9 +7,18 @@ abstract class RegisterEvent extends Equatable {
 class DoRegisterEvent extends RegisterEvent {
   
   final String email, password, password2, username;
-
   DoRegisterEvent({this.email, this.password, this.password2, this.username});
 
   @override
   List<Object> get props => [email, password, password2, username];
+}
+
+class ChangedPasswordVisibilityEvent extends RegisterEvent{
+
+  final int textFormField;
+  ChangedPasswordVisibilityEvent({ @required this.textFormField});
+  
+  @override
+  List<Object> get props => [textFormField];
+
 }

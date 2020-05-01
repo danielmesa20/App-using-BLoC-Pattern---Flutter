@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:login_bloc/bloc/bloc/login_bloc.dart';
+import 'package:login_bloc/blocs/login/bloc/login_bloc.dart';
 import 'package:login_bloc/controllers/LoginLogic.dart';
 import 'package:login_bloc/screens/home.dart';
 import 'package:login_bloc/screens/register.dart';
@@ -12,16 +12,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  //Input text controllers
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
-
-  @override
-  void initState() {
-    super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
+  //Variables
+  TextEditingController _emailC = TextEditingController();
+  TextEditingController _passwordC = TextEditingController();
+  FocusNode _node = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -61,29 +55,45 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     decoration: InputDecoration(
                         labelText: "Email", hintText: 'example@example.com'),
-                    controller: _emailController,
+                    controller: _emailC,
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(_node),
                   ),
                   SizedBox(height: 20),
                   TextFormField(
-                    decoration: InputDecoration(labelText: "Password"),
-                    obscureText: true,
-                    controller: _passwordController,
+                    obscureText: state.showPassword,
+                    controller: _passwordC,
+                    focusNode: _node,
+                    decoration: InputDecoration(
+                      labelText: "Password",
+                      suffixIcon: IconButton(
+                          icon: state.showPassword
+                              ? Icon(Icons.visibility)
+                              : Icon(Icons.visibility_off),
+                          onPressed: () {
+                            //Change password visibility
+                            BlocProvider.of<LoginBloc>(context)
+                                .add(ChangeObscureTextEvent());
+                          }),
+                    ),
                   ),
                   SizedBox(height: 20),
                   RaisedButton(
                     child: Text("Enter"),
                     onPressed: () {
+                      //Try to Login Uswer
                       BlocProvider.of<LoginBloc>(context).add(DoLoginEvent(
-                          email: _emailController.text,
-                          password: _passwordController.text));
+                          email: _emailC.text, password: _passwordC.text));
                     },
                   ),
                   RaisedButton(
                     child: Text("Aún no tengo una cuenta"),
                     onPressed: () {
+                      //Go to Register Screen
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (BuildContext context) => RegisterScreen()));
+                          builder: (context) => RegisterScreen()));
                     },
                   )
                 ],
@@ -101,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } else if (state is LoggedInBlocState) {
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
+          MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 }

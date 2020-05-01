@@ -8,28 +8,59 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //Variables
+  int _selectedIndex = 0;
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+    ),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 2: School',
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+  setState(() {
+    _selectedIndex = index;
+  });
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home Page"),
+        title: Text("App Test"),
+        centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<int>(
             offset: Offset(0, 100),
             onSelected: (value) async {
               await _signOut(context);
             },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+            itemBuilder: (context) => <PopupMenuEntry<int>>[
               PopupMenuItem(
                 child: Text('Salir'),
-                value: 1,
               ),
             ],
           )
         ],
       ),
-      body: Center(
-        child: Text("Bienvenido"),
+      body: _widgetOptions.elementAt(_selectedIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        backgroundColor: Colors.blue,
+        fixedColor: Colors.white,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Home")),
+          BottomNavigationBarItem(icon: Icon(Icons.add), title: Text("Add")),
+          BottomNavigationBarItem(icon: Icon(Icons.list), title: Text("Ver"))
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -38,8 +69,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final storage = new FlutterSecureStorage();
     await storage.delete(key: 'token');
     Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                LoginScreen()));
+        MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }

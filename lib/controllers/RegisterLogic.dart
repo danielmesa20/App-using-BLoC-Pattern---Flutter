@@ -40,7 +40,9 @@ class SimpleRegisterLogic extends RegisterLogic {
             var jsonResponse = jsonDecode(response.body);
             if (jsonResponse["token"] != null) {
               return jsonResponse["token"];
-            } else {
+            } else if(jsonResponse["err"] == 'Email ya registrado'){
+              throw UseEmailException();
+            }else {
               throw RegisterException();
             }
           } else {

@@ -9,11 +9,15 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  //Logic of Login (Email and Password)
   final LoginLogic logic;
   LoginBloc({@required this.logic});
 
+  //Hide password
+  bool obscureText = true;
+
   @override
-  LoginState get initialState => LoginInitial();
+  LoginState get initialState => LoginInitial(obscureText);
 
   @override
   Stream<LoginState> mapEventToState(
@@ -34,10 +38,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield ErrorBlocState(
             message: "Debe ingresar un email con un formato valido");
       } on LoginException {
-        yield ErrorBlocState();
+        yield ErrorBlocState(message: 'Error al intentar ingresar');
       }
+      yield ChangeObscureText(showPassword: obscureText);
     } else if (event is ChangeObscureTextEvent) {
-      yield ChangeObscureText();
+      obscureText = !obscureText;
+      yield ChangeObscureText(showPassword: obscureText);
     }
   }
 }

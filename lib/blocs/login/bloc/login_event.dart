@@ -15,13 +15,12 @@ class DoLoginEvent extends LoginEvent {
   List<Object> get props => [email, password];
 }
 
+//Change visibility password
 class ChangeObscureTextEvent extends LoginEvent {
 
-  final bool obscureText;
-
-  ChangeObscureTextEvent(this.obscureText);
+  ChangeObscureTextEvent();
 
   @override
-  List<Object> get props => [obscureText];
+  List<Object> get props => [];
 }
 
