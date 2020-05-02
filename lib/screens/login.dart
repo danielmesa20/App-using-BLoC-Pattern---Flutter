@@ -15,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //Variables
   TextEditingController _emailC = TextEditingController();
   TextEditingController _passwordC = TextEditingController();
-  FocusNode _node = FocusNode();
+  FocusNode _nodePassword = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _builderMethod(context, state) {
-    return state is LogginInBlocState
-        ? Loading()
-        : Padding(
-            padding: const EdgeInsets.all(40.0),
+    if (state is LogginInBlocState) {
+      return Loading();
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Center(
+          child: SingleChildScrollView(
             child: Form(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Text(
@@ -59,13 +61,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) =>
-                        FocusScope.of(context).requestFocus(_node),
+                        FocusScope.of(context).requestFocus(_nodePassword),
                   ),
                   SizedBox(height: 20),
                   TextFormField(
                     obscureText: state.showPassword,
                     controller: _passwordC,
-                    focusNode: _node,
+                    focusNode: _nodePassword,
                     decoration: InputDecoration(
                       labelText: "Password",
                       suffixIcon: IconButton(
@@ -99,7 +101,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             ),
-          );
+          ),
+        ),
+      );
+    }
   }
 
   void _listenerMethod(context, state) {

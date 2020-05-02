@@ -9,6 +9,7 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+  //Logic of Register with Api
   final RegisterLogic logic;
   RegisterBloc({@required this.logic});
 
@@ -44,17 +45,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       } on RegisterException {
         yield ErrorBlocState(message: "Error al intentar registrar");
       }
-       yield ChangeVisibility(
-          obscureText1: obscureText1, obscureText2: obscureText2);
-          
     } else if (event is ChangedPasswordVisibilityEvent) {
       if (event.textFormField == 0) {
         obscureText1 = !obscureText1;
       } else {
         obscureText2 = !obscureText2;
       }
-      yield ChangeVisibility(
-          obscureText1: obscureText1, obscureText2: obscureText2);
     }
+
+    yield ChangeVisibility(
+        obscureText1: obscureText1, obscureText2: obscureText2);
   }
 }

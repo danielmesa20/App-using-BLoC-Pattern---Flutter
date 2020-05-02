@@ -26,7 +26,7 @@ class SimpleLoginLogic extends LoginLogic {
         //Data to Api
         Map data = {'email': email, 'password': password};
         //Url Api to SignIn
-        String url = "http://192.168.250.6:3000/auth/signin";
+        String url = "http://192.168.250.4:3000/auth/signin";
         var response = await http.post(url, body: data);
         var jsonResponse = jsonDecode(response.body);
         //If SignIn is correct

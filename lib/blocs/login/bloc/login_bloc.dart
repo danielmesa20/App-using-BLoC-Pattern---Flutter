@@ -40,10 +40,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } on LoginException {
         yield ErrorBlocState(message: 'Error al intentar ingresar');
       }
-      yield ChangeObscureText(showPassword: obscureText);
     } else if (event is ChangeObscureTextEvent) {
       obscureText = !obscureText;
-      yield ChangeObscureText(showPassword: obscureText);
     }
+
+    yield ChangeObscureText(showPassword: obscureText);
   }
 }

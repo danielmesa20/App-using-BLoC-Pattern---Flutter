@@ -13,13 +13,13 @@ class LoginInitial extends LoginState {
   List<Object> get props => [showPassword];
 }
 
-//Mostrar Loading
+// Mostrar Loading
 class LogginInBlocState extends LoginState {
   @override
   List<Object> get props => [];
 }
 
-//Usuario logueado correctamente
+// Usuario logueado correctamente
 class LoggedInBlocState extends LoginState {
   final String token;
   LoggedInBlocState({this.token});
@@ -28,7 +28,7 @@ class LoggedInBlocState extends LoginState {
   List<Object> get props => [token];
 }
 
-//Error al Loguear
+// Error al Loguear
 class ErrorBlocState extends LoginState {
   final String message;
   ErrorBlocState({this.message});
@@ -37,7 +37,7 @@ class ErrorBlocState extends LoginState {
   List<Object> get props => [message];
 }
 
-//State password visibility
+// State password visibility
 class ChangeObscureText extends LoginState {
   final bool showPassword;
   ChangeObscureText({this.showPassword});

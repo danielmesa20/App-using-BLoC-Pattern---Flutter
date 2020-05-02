@@ -18,8 +18,6 @@ class DoLoginEvent extends LoginEvent {
 //Change visibility password
 class ChangeObscureTextEvent extends LoginEvent {
 
-  ChangeObscureTextEvent();
-
   @override
   List<Object> get props => [];
 }
